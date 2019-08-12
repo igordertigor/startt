@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from tmpl import process
+from startt import process
 
 
 class TestsGetFilename(unittest.TestCase):

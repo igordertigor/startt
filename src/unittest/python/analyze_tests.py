@@ -1,6 +1,6 @@
 import unittest
 
-from tmpl import analyze
+from startt import analyze
 
 
 class TestsGetTemplateName(unittest.TestCase):

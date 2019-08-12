@@ -2,14 +2,14 @@
 
 from docopt import docopt
 from tmpl import version
-from tmpl.analyze import get_template_folder, get_available_templates
-from tmpl.process import copy_template
+from startt.analyze import get_template_folder, get_available_templates
+from startt.process import copy_template
 
 doc = """
 tmpl version {}
 
 Usage:
-    tmpl [options] [<filename>]
+    startt [options] [<filename>]
 
 Options:
     -t <TEMPLATE_FOLDER>, --template-folder=<TEMPLATE_FOLDER>

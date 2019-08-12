@@ -1,7 +1,7 @@
 import os
 import glob
 from shutil import copyfile
-from tmpl.analyze import get_template_name
+from startt.analyze import get_template_name
 
 
 def copy_template(filename, template_folder):
