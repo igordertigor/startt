@@ -1,13 +1,17 @@
-dist: bionic
 language: python
 python:
-  - '3.4'
-  - '3.5'
-  - '3.6'
-  - '3.7'
+- '3.4'
+- '3.5'
+- '3.6'
 install:
-  - pip install -U pip
-  - pip install pybuilder
-  - pyb install_build_dependencies
+- pip install -U pip
+- pip install pybuilder
+- pyb install_build_dependencies
 script:
-  - pyb run_unit_tests -X
+- pyb run_unit_tests -X
+- pyb run_integration_tests -X
+deploy:
+  provider: pypi
+  user: ingofruend
+  password:
+    secure: BJ9tyQk0VtXKYzYqHsl2X9vL07Xa+yFzeV6SAuyrJ8OEQcKJDXdzm6TK0W4GhUY9UAMObJjYLNoD81mjfuO70pnrDRZKkw3oH3GT3696SCxv7sf6ohyfzkZR5hmqIaPRVHJCOQwGX3I6eTaolFNPvt5xFJYcn6STDIONigrpw4xH7M9Ky3lrpk5Bi/zWds4xsi2Zxi7839YD60V4qVRB9lfGrlwu88DSIPDq6MGdjuAswUg9WzGCNSHkMicLMR7+ojfUqMBppqKSqw3jSSsTsgqXir09BrIDh3ElsbIXAgk/q53ZvL7waiztuW1Cy1k6BxpmR+9qPJ5UKxIDIGhR8TPJT7o3dFVfKNXDLB+0iUaiowdlv/18uxeGIp6eg0cnmPFVFKV9Rocp6KdAi7K/KuwbtMtrNiN43zVOFuuHo02S/l9XUhMDZLm4EE0BzZCtjBdOkKXN913YcItr5Laat42Ie3uqa4oURLs5c9JKpVh+mdRzLt7eNHUZCQjWTbaxpuO1KOuVLEGFKjRDPcMB1Lep+KCkgieVTPtYnYHpAsqTmMPQwLWVHSPpNqGzqqHPFrRr4LjUVm/YLN8jmplDiDRfikDNuIgGCKWTDHrSRia+rZSAHA6FmJOMZcrCiEPXgvhBt/DgCCSmcCha9HM+ddWFJOK03o+3YEi4bd5CaiY=
