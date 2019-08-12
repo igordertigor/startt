@@ -25,5 +25,5 @@ if __name__ == '__main__':
     if args['<filename>']:
         copy_template(args['<filename>'], template_folder)
     else:
-        for fname in get_available_templates(template_folder):
+        for fname in sorted(get_available_templates(template_folder)):
             print(os.path.basename(fname))
