@@ -6,6 +6,7 @@ use_plugin("python.unittest")
 use_plugin("python.install_dependencies")
 use_plugin("python.flake8")
 use_plugin("python.coverage")
+# use_plugin("python.cram")
 use_plugin("python.distutils")
 
 
@@ -23,4 +24,4 @@ version = "{}"
 @init
 def set_properties(project):
     project.depends_on('docopt')
-    project.depends_on('jinja2')
+    project.build_depends_on('cram')

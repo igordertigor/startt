@@ -23,9 +23,9 @@ class TestCopyDirectoryTemplate(unittest.TestCase):
 
     def setUp(self):
         self.patches = {
-            'glob': mock.patch('tmpl.process.glob.glob'),
-            'copyfile': mock.patch('tmpl.process.copyfile'),
-            'symlink': mock.patch('tmpl.process.os.symlink'),
+            'glob': mock.patch('startt.process.glob.glob'),
+            'copyfile': mock.patch('startt.process.copyfile'),
+            'symlink': mock.patch('startt.process.os.symlink'),
         }
         self.mocks = {
             name: patch.start()
@@ -69,3 +69,27 @@ class TestCopyDirectoryTemplate(unittest.TestCase):
         self.mocks['symlink'].assert_called_once_with(
             'ANY_TEMPLATE/ANY_OTHER_FILE.ext',
             'ANY_OTHER_FILE.ext')
+
+
+class TestsCopyTemplate(unittest.TestCase):
+
+    @mock.patch('startt.process.os.path.isfile')
+    @mock.patch('startt.process.copy_file_template')
+    def test_copies_single_file(self, mock_copy_file, mock_isfile):
+        mock_isfile.return_value = True
+        process.copy_template('ANY_FILE.ext', 'ANY_FOLDER/')
+        mock_copy_file.assert_called_once_with(
+            'ANY_FOLDER/default.ext', 'ANY_FILE.ext')
+
+    @mock.patch('startt.process.os.path.isfile')
+    @mock.patch('startt.process.os.path.isdir')
+    @mock.patch('startt.process.copy_directory_template')
+    def test_directory_match_copies_folder(self,
+                                           mock_copy_dir,
+                                           mock_isdir,
+                                           mock_isfile):
+        mock_isfile.return_value = False
+        mock_isdir.return_value = True
+        process.copy_template('ANY_FILE.ext', 'ANY_FOLDER/')
+        mock_copy_dir.assert_called_once_with(
+            'ANY_FOLDER/default.ext', 'ANY_FILE.ext')
