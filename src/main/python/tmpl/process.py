@@ -30,7 +30,7 @@ def copy_directory_template(template_name, target_name):
     filenames = glob.glob(os.path.join(template_name, '*'))
     for fname in filenames:
         base = os.path.basename(fname)
-        if base.startswith('main'):
+        if base.lower().startswith('main'):
             copyfile(fname, target_name)
         else:
             os.symlink(fname, base)
