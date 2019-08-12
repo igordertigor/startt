@@ -12,7 +12,7 @@ use_plugin("python.distutils")
 
 name = "startt"
 default_task = "publish"
-version = '0-{}'.format(count_travis())
+version = '0.{}'.format(count_travis())
 
 with open('src/main/python/startt/__init__.py', 'w') as f:
     f.write('''# This file is automatically written during the build process
