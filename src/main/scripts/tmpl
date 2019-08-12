@@ -13,7 +13,7 @@ Usage:
 
 Options:
     -t <TEMPLATE_FOLDER>, --template-folder=<TEMPLATE_FOLDER>
-        Folder of available templates
+        Folder of available templates [default: ~/templates]
 """.format(version)
 
 
