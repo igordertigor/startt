@@ -4,14 +4,16 @@ import json
 
 def config(path):
     filename = os.path.join(path, 'config.json')
+    out = {'default': 'link'}
     if os.path.exists(filename):
         with open(filename) as f:
-            out = json.load(f)
-        if not set(out.values()).issubset({'link', 'copy'}):
+            cfg = json.load(f)
+        if not set(cfg.values()).issubset({'link', 'copy'}):
             raise ValueError('Invalid transfer option in config: {}'
-                             .format(set(out.values()) - {'link', 'copy'})
+                             .format(set(cfg.values()) - {'link', 'copy'})
                              )
-        out.setdefault('default', 'link')
-        return out
-    else:
-        return {'default': 'link'}
+        for key, value in cfg.items():
+            if not key == 'default':
+                key = os.path.join(path, key)
+            out[key] = value
+    return out

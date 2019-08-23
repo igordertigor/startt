@@ -26,11 +26,13 @@ class TestCopyDirectoryTemplate(unittest.TestCase):
             'glob': mock.patch('startt.process.glob.glob'),
             'copyfile': mock.patch('startt.process.copyfile'),
             'symlink': mock.patch('startt.process.os.symlink'),
+            'config': mock.patch('startt.process.config.config'),
         }
         self.mocks = {
             name: patch.start()
             for name, patch in self.patches.items()
         }
+        self.mocks['config'].return_value = {'default': 'link'}
 
     def tearDown(self):
         for name, patch in self.patches.items():
@@ -69,6 +71,35 @@ class TestCopyDirectoryTemplate(unittest.TestCase):
         self.mocks['symlink'].assert_called_once_with(
             'ANY_TEMPLATE/ANY_OTHER_FILE.ext',
             'ANY_OTHER_FILE.ext')
+
+    def test_respects_default_operation_setting(self):
+        self.mocks['config'].return_value = {'default': 'copy'}
+        self.mocks['glob'].return_value = ['ANY_TEMPLATE/ANY_FILE.ext']
+        process.copy_directory_template('ANY_TEMPLATE', 'ANY_NEW_NAME.ext')
+        self.mocks['symlink'].assert_not_called()
+        self.mocks['copyfile'].assert_called_once_with(
+            'ANY_TEMPLATE/ANY_FILE.ext',
+            'ANY_FILE.ext')
+
+    def test_gets_config_for_directory(self):
+        self.mocks['glob'].return_value = []
+        process.copy_directory_template('ANY_TEMPLATE', 'ANY_NAME.ext')
+        self.mocks['config'].assert_called_once_with('ANY_TEMPLATE')
+
+    def test_respects_per_file_setting(self):
+        self.mocks['config'].return_value = {
+            'default': 'link',
+            'ANY_TEMPLATE/ANY_FILE.ext': 'copy',
+        }
+        self.mocks['glob'].return_value = ['ANY_TEMPLATE/ANY_FILE.ext',
+                                           'ANY_TEMPLATE/OTHER_FILE.ext']
+        process.copy_directory_template('ANY_TEMPLATE', 'ANY_NEW_NAME.ext')
+        self.mocks['symlink'].assert_called_once_with(
+            'ANY_TEMPLATE/OTHER_FILE.ext',
+            'OTHER_FILE.ext')
+        self.mocks['copyfile'].assert_called_once_with(
+            'ANY_TEMPLATE/ANY_FILE.ext',
+            'ANY_FILE.ext')
 
 
 class TestsCopyTemplate(unittest.TestCase):

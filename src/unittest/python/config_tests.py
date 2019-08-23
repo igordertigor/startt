@@ -51,8 +51,8 @@ class TestConfig(TestCase):
                                                 'other_file.txt': 'link'}
         cfg = config.config('ANY_PATH')
         self.assertDictEqual(cfg, {'default': 'link',
-                                   'file.py': 'copy',
-                                   'other_file.txt': 'link'})
+                                   'ANY_PATH/file.py': 'copy',
+                                   'ANY_PATH/other_file.txt': 'link'})
 
     def test_fail_if_invalid_transfer_options(self):
         self.mocks['exists'].return_value = True
