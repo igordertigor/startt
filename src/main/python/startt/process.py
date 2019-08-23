@@ -29,6 +29,10 @@ def copy_file_template(template_name, target_name):
 
 def copy_directory_template(template_name, target_name):
     filenames = glob.glob(os.path.join(template_name, '*'))
+    cfgname = os.path.join(template_name, 'config.json')
+    if cfgname in filenames:
+        filenames.pop(filenames.index(cfgname))
+
     cfg = config.config(template_name)
     for fname in filenames:
         base = os.path.basename(fname)

@@ -101,6 +101,14 @@ class TestCopyDirectoryTemplate(unittest.TestCase):
             'ANY_TEMPLATE/ANY_FILE.ext',
             'ANY_FILE.ext')
 
+    def test_dont_copy_config_file(self):
+        self.mocks['glob'].return_value = ['ANY_TEMPLATE/ANY_FILE.ext',
+                                           'ANY_TEMPLATE/config.json']
+        process.copy_directory_template('ANY_TEMPLATE', 'ANY_NEW_NAME.ext')
+        self.mocks['symlink'].assert_called_once_with(
+            'ANY_TEMPLATE/ANY_FILE.ext',
+            'ANY_FILE.ext')
+
 
 class TestsCopyTemplate(unittest.TestCase):
 
