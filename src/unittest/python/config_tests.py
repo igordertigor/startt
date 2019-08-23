@@ -9,9 +9,7 @@ class TestConfig(TestCase):
     def setUp(self):
         self.patches = {
             'exists': mock.patch('startt.config.os.path.exists'),
-            'open': mock.patch('startt.config.open',
-                               new_callable=mock.mock_open),
-            'json_load': mock.patch('startt.config.json.load'),
+            'json_load': mock.patch('startt.config.read_json'),
         }
         self.mocks = {
             name: patch.start() for name, patch in self.patches.items()
