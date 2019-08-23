@@ -2,6 +2,7 @@ import os
 import glob
 from shutil import copyfile
 from startt.analyze import get_template_name
+from startt import config
 
 
 def copy_template(filename, template_folder):
@@ -28,9 +29,18 @@ def copy_file_template(template_name, target_name):
 
 def copy_directory_template(template_name, target_name):
     filenames = glob.glob(os.path.join(template_name, '*'))
+    cfgname = os.path.join(template_name, 'config.json')
+    if cfgname in filenames:
+        filenames.pop(filenames.index(cfgname))
+
+    cfg = config.config(template_name)
     for fname in filenames:
         base = os.path.basename(fname)
         if base.lower().startswith('main'):
             copyfile(fname, target_name)
         else:
-            os.symlink(fname, base)
+            operation = cfg.get(fname, cfg['default'])
+            if operation == 'link':
+                os.symlink(fname, base)
+            elif operation == 'copy':
+                copyfile(fname, base)
