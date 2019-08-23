@@ -15,6 +15,7 @@ class TestConfig(TestCase):
         self.mocks = {
             name: patch.start() for name, patch in self.patches.items()
         }
+        self.mocks['open'].return_value = mock.MagicMock()
 
     def tearDown(self):
         mock.patch.stopall()
